@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <style>
+        .slect-image{
+            height: 300px;
+            width: 300px;
+            border-radius: 22px;
+        }
+        #prompt img{
+            height: 500px;
+            width: 500px;
+            border-radius: 15px;
+          
+        }
+        .container{
+            display: flex;
+            gap: 5px;
+            width: 1219px;
+            margin-left: 100px;
+            position: absolute;
+            cursor: pointer;
+        }
+        #model{
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            align-items: center;
+        }
+        button{
+            height: 80px;
+            width: 80px; 
+        }
+        .abc{
+            display: none;
+            /* border: 3px solid black; */
+            width: 50%;
+            position: relative;
+            margin: auto;
+        }
+        #innerbutton{
+            margin-top: -420px;
+            font-weight: bolder;
+            font-size: 44px;
+            cursor: pointer;
+        }
+
+        #prevButton ,#nextButton{
+            background-color: red;
+            width: 70px;
+            height: 40px;
+            cursor: pointer;
+            border-radius: 5px;
+            color: white;
+        }
+        #prevButton:hover{
+          background-color: darkred;
+        }
+        #nextButton:hover{
+          background-color: darkred;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img class="slect-image" src="./images/image1.jpg" alt="First image"    />
+        <img class="slect-image" src="./images/image2.jpeg" alt="Second image"  />
+        <img class="slect-image" src="./images/image3.jpg" alt="Third image"   />
+        <img class="slect-image" src="./images/image4.jpeg" alt="Four image"    />
+    </div>
+
+    <div class="abc">
+        <div id="model">
+            <button id="prevButton">Prev</button>
+            <div id="prompt"></div>
+            <button id="nextButton">Next</button>
+            <span id="innerbutton">&times;</span>
+        </div>
+    </div>
+
+
+
+    <script>
+        $(document).ready(function(){
+            $(".slect-image").click(function(){
+                var selectimage = $(this).attr("src");
+                var image = `<img src=${selectimage} alt="selected image"/>`   
+                $("#prompt").html(image);  
+
+                if($(this).is(":first-child")){
+                    $("#prevButton").hide();
+                }
+                else{
+                    $("#prevButton").show();
+                }
+
+                if($(this).is(":last-child")){
+                    $("#nextButton").hide();
+                }
+                else{
+                    $("#nextButton").show();
+                }
+                                
+                $(".abc").css({
+                 'display':"block"
+                })
+
+                $(".container").css({
+                 'opacity':0.2
+               }) 
+            });
+
+            $("#nextButton").on("click",function(){
+                var selectedImage = $("#prompt img").attr("src");
+                var currentImage = $("img[src='" + selectedImage + "']");
+                var nextImage = currentImage.next();
+
+                $("#prompt").html(`<img src="${nextImage.attr('src')}" alt="next image" />`);
+                if(nextImage.is(':last-child')){
+                    $("#nextButton").hide();
+                    $("#prevButton").show();
+                }
+                else{
+                    $("#nextButton").show();
+                    $("#prevButton").show();
+                }
+            })
+
+            $("#prevButton").on("click",function(){
+                var selectedImage = $("#prompt img").attr("src");
+                var currentImage = $("img[src='" + selectedImage + "']");
+                var prevImage = currentImage.prev();
+
+                $("#prompt").html(`<img src="${prevImage.attr('src')}" alt="next image" />`);
+                if(prevImage.is(':first-child')){
+                    $("#prevButton").hide();
+                    $("#nextButton").show();
+                }
+                else{
+                    $("#prevButton").show();
+                    $("#nextButton").show();
+                }
+            })
+
+                                                                             
+
+            $("#innerbutton").click(function(){
+                $(".abc").css({
+                    'display':"none"
+                })
+                $(".container").css({
+                    'opacity':1
+                })
+            })
+
+            
+
+        })
+    </script>
+</body>
+</html>
